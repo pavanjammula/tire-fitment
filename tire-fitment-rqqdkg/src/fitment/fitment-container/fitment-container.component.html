@@ -1,0 +1,56 @@
+<div class="buttons-wrapper">
+  <button (click)="getYears()"> Select vehicle </button>
+  <button (click)="clearVehicle()"> Clear Data </button>
+</div>
+<div *ngIf="displayVehicle" class="vehicle-wrapper">
+  <div class="vehicle-bar">
+    <div [ngClass]="{  'pbar ': progressStage < 1,
+                      'pbars active': progressStage == 1,
+                      'pbar success': progressStage > 1}">
+      <p class="vehicle-bar__text vehicle-bar__text--selected"> Year </p>
+    </div>
+    <div [ngClass]="{  'pbars ': progressStage < 2,
+                      'pbar active': progressStage == 2,
+                      'pbar success': progressStage > 2}">
+      <p class="vehicle-bar__text vehicle-bar__text--active"> Make </p>
+    </div>
+    <div [ngClass]="{  'pbars ': progressStage < 3,
+                      'pbar active': progressStage == 3,
+                      'pbar success': progressStage > 3}">
+      <p class="vehicle-bar__text"> Model </p>
+    </div>
+    <div [ngClass]="{  'pbars ': progressStage < 4,
+                      'pbar active': progressStage == 4,
+                      'pbar success': progressStage > 4}">
+      <p class="vehicle-bar__text"> Trim </p>
+    </div>
+  </div>
+  <ng-container *ngIf="progressStage > 1">
+    <div class="fitment-selected">Vehicle: {{fitmentSelected$}}</div>
+  </ng-container>
+  <div class="vehicle-prop-wrapper">
+    <ng-container *ngIf="progressStage === 1">
+      <div class="vehicle-prop" *ngFor="let item of years$ | async">
+        <span (click)="yearSelected(item)" class="vehicle-item">{{item}}</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="progressStage === 2">
+      <div class="vehicle-prop" *ngFor="let item of makes$ | async">
+        <span (click)="makeSelected(item)" class="vehicle-item">{{item}}</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="progressStage === 3">
+      <div class="vehicle-prop" *ngFor="let item of model$ | async">
+        <span (click)="modelSelected(item)" class="vehicle-item">{{item}}</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="progressStage === 4">
+      <div class="vehicle-prop" *ngFor="let item of trim$ | async">
+        <span (click)="trimSelected(item)" class="vehicle-item">{{item}}</span>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="progressStage === 5">
+      <div class="final-message">Your search is completed</div>
+    </ng-container>
+  </div>
+</div>
